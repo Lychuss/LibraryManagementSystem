@@ -219,19 +219,24 @@ public class Library {
     	    String title = userInterface.promptString("Title: ", scanner);
     	    matches = findBooksByTitle(title);
     	    
+       	 if(matches.isEmpty()) {
+  	    	System.out.println("There is no stocks!");
+  	    }
+    	    
     	    boolean check = false;
     	    
-    	    for(Book i : matches) {
+    	    for(int j = 0; j < matches.size(); j++) {
+    	    	Book i = matches.get(j);
     	    	if(!i.getAvailability().equalsIgnoreCase("borrowed")) {
-    	    		System.out.println(matches.size() + ". " + i.getDescription());
+    	    		System.out.println(j+1 + ". " + i.getDescription());
     	    		check = true;
     	    	}
     	       }
     	    
-    	    if(check) {
-    	    	borrowService(member);
-    	    } else {
+    	    if(!check && !matches.isEmpty()) {
     	    	System.out.println("The Book is already Borrowed! ");
+    	    } else if (check) {
+    	    	borrowService(member);
     	    }
     	    
     	}
@@ -259,10 +264,6 @@ public class Library {
      
 //The logic where you can you choose what number you will borrow and the book index will store in the memberBorrows arrayList
      void borrowService(Member member) {
-    	 
-    	 if(matches.isEmpty()) {
- 	    	System.out.println("There is no stocks!");
- 	    } else {
  	    
  	    int number = 0;
  	    
@@ -286,7 +287,6 @@ public class Library {
  	    	} catch (NumberFormatException e) {
  	    		System.out.println("Invalid Input!");
  	    	}
- 	    }
  	    }
      }
      
